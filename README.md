@@ -1,6 +1,10 @@
 # page-searcher
 The CLI can be used to search a text in a PDF that occurs a number of times  or extract a block of pages from the pdf file
 
+## Installation
+
+    `python setup.py develop`
+
 ## Tutorial to use page-search
 
 ### 1. extractpages : 
