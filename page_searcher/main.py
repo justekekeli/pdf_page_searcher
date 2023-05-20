@@ -13,7 +13,7 @@ def findpage(pdf, search_text, times):
     """ Return the indexes of the pages that contains the search text """
     pages_with_text = []
 
-    with open(input_pdf, 'rb') as file:
+    with open(pdf, 'rb') as file:
         pdf = PdfFileReader(file)
 
         for page_num in range(pdf.numPages):
