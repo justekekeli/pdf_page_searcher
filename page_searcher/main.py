@@ -1,4 +1,4 @@
-from PyPDF2 import PdfFileReader
+from PyPDF2 import PdfReader,PdfWriter
 import click
 
 @click.group()
@@ -14,20 +14,20 @@ def findpage(pdf, search_text, times):
     pages_with_text = []
 
     with open(pdf, 'rb') as file:
-        pdf = PdfFileReader(file)
+        pdf = PdfReader(file)
 
-        for page_num in range(pdf.numPages):
-            page = pdf.getPage(page_num)
+        for page_num in range(len(pdf.pages)):
+            page = pdf.pages[page_num]
             text = page.extract_text()
 
             if text.lower().count(search_text.lower()) >= times:
                 pages_with_text.append(page_num)
 
     if pages_with_text:
-        print(f"The text '{search_text}' was found on the following pages:")
-        print(pages_with_text)
+        click.echo(f"The text '{search_text}' was found on the following pages:")
+        click.echo(pages_with_text)
     else:
-        print(f"The text '{search_text}' was not found in the PDF.")
+        click.echo(f"The text '{search_text}' was not found in the PDF.")
 
     return pages_with_text
 
@@ -36,20 +36,20 @@ def findpage(pdf, search_text, times):
 @click.argument('numfirstpage', type=int)
 @click.argument('numpages', type=int)
 @click.option('-o', '--output', default='output.pdf', help='Output PDF file path')
-def extractpages(pdf, numfirstpage, numpages,outputfile):
+def extractpages(pdf, numfirstpage, numpages,output):
     """ Extract a block of pages from a pdf """
-    output_pdf = PdfFileWriter()
+    output_pdf = PdfWriter()
     with open(pdf, 'rb') as file:
-        pdf = PdfFileReader(file)
+        pdf = PdfReader(file)
         for page_num in range(numfirstpage, numfirstpage + numpages):
-            if page_num < pdf.numPages:
-                page = pdf.getPage(page_num)
-                output_pdf.addPage(page)
+            if page_num < len(pdf.pages):
+                page = pdf.pages[page_num]
+                output_pdf.add_page(page)
     
-        with open(outputfile, 'wb') as output_file:
+        with open(output, 'wb') as output_file:
             output_pdf.write(output_file)
 
-    print(f"Extracted pages saved as '{output_file}'.")
+    click.echo(f"Extracted pages saved as '{output}'.")
 
 if __name__ == '__main__':
     main()
