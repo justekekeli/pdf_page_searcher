@@ -1,4 +1,6 @@
-from page_searcher.main import main
+import sys
+sys.path.append('../page_searcher/')
+from main import main
 from PyPDF2 import PdfReader
 import os
 from click.testing import CliRunner
