@@ -41,8 +41,14 @@ def extractpages(pdf, numfirstpage, numpages,output):
     output_pdf = PdfWriter()
     with open(pdf, 'rb') as file:
         pdf = PdfReader(file)
+        nb_pages = len(pdf.pages)
+        if numfirstpage > nb_pages:
+            raise IndexError(f'The first page is out of the bound , the pdf has {nb_pages}')
+        
+        if numfirstpage + numpages > nb_pages:
+            raise IndexError(f'The number of pages to extract is out of the bound , the pdf has {nb_pages}')
+        
         for page_num in range(numfirstpage, numfirstpage + numpages):
-            if page_num < len(pdf.pages):
                 page = pdf.pages[page_num]
                 output_pdf.add_page(page)
     
