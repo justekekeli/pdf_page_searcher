@@ -6,7 +6,7 @@ from click.testing import CliRunner
 def test_find_output():
     """ test if the ouput of findpage is what want we want"""
     runner = CliRunner()
-    result = runner.invoke(main, ['findpage','../examples/ml.pdf','machine learning','4'])
+    result = runner.invoke(main, ['findpage','ml.pdf','machine learning','4'])
     assert '[5, 7, 10, 12, 24, 119, 121, 126, 127]' in result.output
 
 def test_extract_output():
